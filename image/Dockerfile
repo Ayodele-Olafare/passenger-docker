@@ -6,7 +6,8 @@ ADD . /pd_build
 
 ARG ARCH
 RUN --mount=type=cache,target=/build_cache \
-    rm -rf "/build_cache/${ARCH}" && \
+    rm -rf "/build_cache/${ARCH}/*" && \  # Only remove files inside the directory, not the directory itself
     /usr/bin/nice /pd_build/install_base.sh && \
     rm -rf /pd_build
+
 
