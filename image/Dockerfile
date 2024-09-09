@@ -1,14 +1,12 @@
 # syntax=docker/dockerfile:1.2
-ARG ARCH
-ARG REGISTRY
-FROM $REGISTRY/phusion/passenger-base:current-$ARCH
+FROM phusion/baseimage:jammy-1.0.4
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
 
 ARG ARCH
 RUN --mount=type=cache,target=/build_cache \
-    /usr/bin/nice /pd_build/install_image.sh
+    rm -rf "/build_cache/${ARCH}" && \
+    /usr/bin/nice /pd_build/install_base.sh && \
+    rm -rf /pd_build
 
-CMD ["/sbin/my_init"]
-EXPOSE 80 443
